@@ -1,0 +1,477 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TipoPersona {
+  NATURAL
+  JURIDICA
+}
+
+enum EstadoUsuario {
+  PENDIENTE_VERIFICACION
+  ACTIVO
+  BLOQUEADO
+  INACTIVO
+}
+
+enum RolInterno {
+  ADMINISTRADOR
+  OFICIAL
+  CAJERO
+}
+
+enum TipoCodigo {
+  VERIFICAR_EMAIL
+  VERIFICAR_CUENTA
+  RESTABLECER_PASSWORD
+}
+
+enum TipoTramite {
+  CERTIFICACION_SIPPCI
+  REGISTRO_PROFESIONAL
+  CAPACITACION
+  RENOVACION
+}
+
+enum SubtipoTramite {
+  INFRAESTRUCTURA
+  HIDROCARBUROS
+  POLIGONO_TIRO
+  TURISMO
+  NATURAL
+  JURIDICA
+  ASESOR_EMERGENCIA
+}
+
+enum EstadoSolicitud {
+  BORRADOR
+  ENVIADA
+  EN_REVISION
+  REVISADO
+  OBSERVADA
+  APROBADA
+  RECHAZADA
+  CERTIFICADO_EMITIDO
+  VENCIDO
+  RENOVADO
+  ANULADA
+}
+
+enum EstadoDocumento {
+  PENDIENTE
+  VALIDADO
+  RECHAZADO
+}
+
+enum EstadoPago {
+  PENDIENTE
+  VERIFICADO
+  OBSERVADO
+  RECHAZADO
+}
+
+enum TipoDocumento {
+  FORMULARIO
+  PLANO_SIPPCI
+  PLAN_EMERGENCIA
+  CREDENCIAL_PROFESIONAL
+  NIT
+  BOLETA_DEPOSITO
+  CERTIFICADO_ANTERIOR
+  OTRO
+}
+
+enum TipoCertificado {
+  SIPPCI
+  PROFESIONAL
+  CAPACITACION
+  RENOVACION
+}
+
+enum EstadoParticipante {
+  INSCRITO
+  APROBADO
+  REPROBADO
+  ABANDONO
+}
+
+enum EstadoInspeccion {
+  PROGRAMADA
+  EN_CURSO
+  CONFORME
+  NO_CONFORME
+}
+
+enum TipoNotificacion {
+  EMAIL
+  SMS
+  APP
+  SISTEMA
+}
+
+model usuarios {
+  id             Int       @id @default(autoincrement())
+  nombre         String
+  apellido       String
+  email          String    @unique
+  telefono       String?
+  passwordHash   String
+  tipo           TipoPersona @default(NATURAL)
+  estado         EstadoUsuario @default(PENDIENTE_VERIFICACION)
+  emailVerified  Boolean   @default(false)
+  intentosLogin  Int       @default(0)
+  bloqueadoHasta DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  sesiones              sesiones?
+  codigos               codigos_verificacion[]
+  intentosSesion        intentos_login[]
+  usuarioEmpresas       usuarios_empresas[]
+  solicitudes           solicitudes[]
+  documentos            documentos[]
+  notificaciones        notificaciones[]
+  auditorias            auditoria_general[]
+  @@map("usuarios")
+}
+
+model usuarios_internos {
+  id             Int       @id @default(autoincrement())
+  ci             String    @unique
+  nombre         String
+  apellido       String
+  grado          String?
+  rol            RolInterno @default(OFICIAL)
+  unidad         String?
+  email          String    @unique
+  passwordHash   String
+  activo         Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  sesiones                sesiones?
+  solicitudesRev          solicitudes[] @relation("RevisadasPor")
+  solicitudesApr          solicitudes[] @relation("AprobadasPor")
+  certificados            certificados[]
+  entregas                certificados[] @relation("EntregaCertificado")
+  inspecciones            inspecciones[]
+  notificaciones          notificaciones[]
+  auditorias              auditoria_general[]
+  @@map("usuarios_internos")
+}
+
+model sesiones {
+  id                Int       @id @default(autoincrement())
+  usuarioId         Int?      @unique
+  usuarioInternoId  Int?      @unique
+  token             String    @unique
+  ip                String?
+  userAgent         String?
+  activa            Boolean   @default(true)
+  expiresAt         DateTime
+  createdAt         DateTime  @default(now())
+  usuario           usuarios? @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  usuarioInterno    usuarios_internos? @relation(fields: [usuarioInternoId], references: [id], onDelete: Cascade)
+  @@map("sesiones")
+}
+
+model codigos_verificacion {
+  id        Int      @id @default(autoincrement())
+  usuarioId Int
+  codigo    String
+  tipo      TipoCodigo
+  expiraEn  DateTime
+  usado     Boolean  @default(false)
+  createdAt DateTime @default(now())
+  usedAt    DateTime?
+  usuario   usuarios @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  @@index([usuarioId])
+  @@map("codigos_verificacion")
+}
+
+model intentos_login {
+  id        Int      @id @default(autoincrement())
+  usuarioId Int
+  ip        String
+  exitoso   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  usuario   usuarios @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  @@index([usuarioId, createdAt])
+  @@map("intentos_login")
+}
+
+model empresas {
+  id               Int      @id @default(autoincrement())
+  razonSocial      String
+  nit              String   @unique
+  direccion        String?
+  telefono         String?
+  email            String?
+  representanteLegal String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  usuarioEmpresas  usuarios_empresas[]
+  solicitudes      solicitudes[]
+  @@map("empresas")
+}
+
+model usuarios_empresas {
+  id         Int      @id @default(autoincrement())
+  usuarioId  Int
+  empresaId  Int
+  rol        String   @default("REPRESENTANTE")
+  createdAt  DateTime @default(now())
+  usuario    usuarios @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  empresa    empresas @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  @@unique([usuarioId, empresaId])
+  @@map("usuarios_empresas")
+}
+
+model solicitudes {
+  id                 Int               @id @default(autoincrement())
+  codigoFormulario   String            @unique
+  tipoTramite        TipoTramite
+  subtipoTramite     SubtipoTramite
+  estado             EstadoSolicitud   @default(BORRADOR)
+  usuarioId          Int
+  empresaId          Int?
+  datosJson          Json              @default("{}")
+  revisadoPorId      Int?
+  aprobadoPorId      Int?
+  fechaPresentacion  DateTime?
+  fechaAprobacion    DateTime?
+  fechaVigencia      DateTime?
+  esRenovacion       Boolean           @default(false)
+  solicitudAnteriorId Int?
+  solicitudAnterior  solicitudes?      @relation("Renovaciones", fields: [solicitudAnteriorId], references: [id])
+  renovaciones       solicitudes[]     @relation("Renovaciones")
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  usuario            usuarios          @relation(fields: [usuarioId], references: [id])
+  empresa            empresas?         @relation(fields: [empresaId], references: [id])
+  revisadoPor        usuarios_internos? @relation("RevisadasPor", fields: [revisadoPorId], references: [id])
+  aprobadoPor        usuarios_internos? @relation("AprobadasPor", fields: [aprobadoPorId], references: [id])
+  historial          historial_solicitudes[]
+  documentos         documentos[]
+  pagos              pagos[]
+  certificados       certificados?
+  declaracionesJuradas declaraciones_juradas?
+  inspecciones       inspecciones[]
+  notificaciones     notificaciones[]
+  participantesCapacitacion participantes_capacitacion[]
+  @@index([usuarioId])
+  @@map("solicitudes")
+}
+
+model historial_solicitudes {
+  id               Int              @id @default(autoincrement())
+  solicitudId      Int
+  estadoAnterior   EstadoSolicitud?
+  estadoNuevo      EstadoSolicitud
+  comentario       String?
+  realizadoPorId   Int?
+  createdAt        DateTime         @default(now())
+  solicitud        solicitudes      @relation(fields: [solicitudId], references: [id], onDelete: Cascade)
+  @@index([solicitudId, createdAt])
+  @@map("historial_solicitudes")
+}
+
+model documentos {
+  id             Int            @id @default(autoincrement())
+  solicitudId    Int
+  usuarioId      Int?
+  tipo           TipoDocumento
+  rutaArchivo    String
+  nombreOriginal String
+  mimeType       String?
+  tamanoBytes    Int?
+  estado         EstadoDocumento @default(PENDIENTE)
+  observaciones  String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  solicitud      solicitudes    @relation(fields: [solicitudId], references: [id], onDelete: Cascade)
+  usuario        usuarios?      @relation(fields: [usuarioId], references: [id])
+  @@index([solicitudId])
+  @@map("documentos")
+}
+
+model pagos {
+  id                Int       @id @default(autoincrement())
+  solicitudId       Int
+  numeroOperacion   String    @unique
+  monto             Decimal   @db.Decimal(10, 2)
+  fechaDeposito     DateTime
+  banco             String    @default("Banco Union")
+  estado            EstadoPago @default(PENDIENTE)
+  verificadoPorId   Int?
+  verificadoEn      DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  solicitud         solicitudes @relation(fields: [solicitudId], references: [id])
+  @@index([solicitudId])
+  @@map("pagos")
+}
+
+model certificados {
+  id                Int             @id @default(autoincrement())
+  solicitudId       Int             @unique
+  tipo              TipoCertificado
+  codigoCertificado String          @unique
+  emitidoPorId      Int
+  fechaEmision      DateTime        @default(now())
+  fechaVigencia     DateTime
+  activo            Boolean         @default(true)
+  observaciones     String?
+  fechaEntrega      DateTime?
+  entregadoPorId    Int?
+  createdAt         DateTime        @default(now())
+  solicitud         solicitudes     @relation(fields: [solicitudId], references: [id])
+  emitidoPor        usuarios_internos @relation(fields: [emitidoPorId], references: [id])
+  entregadoPor      usuarios_internos? @relation("EntregaCertificado", fields: [entregadoPorId], references: [id])
+  @@map("certificados")
+}
+
+model declaraciones_juradas {
+  id              Int       @id @default(autoincrement())
+  solicitudId     Int       @unique
+  codigoJurada    String    @unique
+  contenido       String    @db.Text
+  aceptada        Boolean   @default(true)
+  fechaAceptacion DateTime  @default(now())
+  solicitud       solicitudes @relation(fields: [solicitudId], references: [id], onDelete: Cascade)
+  @@map("declaraciones_juradas")
+}
+
+model cursos {
+  id            Int      @id @default(autoincrement())
+  nombre        String
+  descripcion   String?
+  modalidad     String   @default("PRESENCIAL")
+  duracionHoras Int?
+  costoBsf      Decimal? @db.Decimal(10, 2)
+  activo        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  participantes participantes_capacitacion[]
+  participantesCursos participantes_cursos[]
+  @@map("cursos")
+}
+
+model participantes_capacitacion {
+  id                 Int      @id @default(autoincrement())
+  cursoId            Int?
+  solicitudId        Int?
+  nombre             String
+  ci                 String
+  email              String?
+  telefono           String?
+  estado             EstadoParticipante @default(INSCRITO)
+  certificadoEmitido Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  curso              cursos? @relation(fields: [cursoId], references: [id])
+  solicitud          solicitudes? @relation(fields: [solicitudId], references: [id])
+  relaciones         participantes_cursos[]
+  @@map("participantes_capacitacion")
+}
+
+model participantes_cursos {
+  id               Int      @id @default(autoincrement())
+  participanteId   Int
+  cursoId          Int
+  estado           EstadoParticipante @default(INSCRITO)
+  fechaInscripcion DateTime @default(now())
+  participante     participantes_capacitacion @relation(fields: [participanteId], references: [id], onDelete: Cascade)
+  curso            cursos @relation(fields: [cursoId], references: [id], onDelete: Cascade)
+  @@unique([participanteId, cursoId])
+  @@map("participantes_cursos")
+}
+
+model inspecciones {
+  id                Int       @id @default(autoincrement())
+  solicitudId       Int
+  inspectorId       Int
+  fechaProgramada   DateTime
+  fechaRealizada    DateTime?
+  estado            EstadoInspeccion @default(PROGRAMADA)
+  resultado         String?
+  observaciones     String?
+  informeRuta       String?
+  creadoPorId       Int?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  solicitud         solicitudes @relation(fields: [solicitudId], references: [id], onDelete: Cascade)
+  inspector         usuarios_internos @relation(fields: [inspectorId], references: [id])
+  @@index([solicitudId])
+  @@map("inspecciones")
+}
+
+model notificaciones {
+  id                Int      @id @default(autoincrement())
+  usuarioId         Int?
+  usuarioInternoId  Int?
+  solicitudId       Int?
+  tipo              TipoNotificacion
+  asunto            String
+  mensaje           String   @db.Text
+  leida             Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  usuario           usuarios? @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  usuarioInterno    usuarios_internos? @relation(fields: [usuarioInternoId], references: [id], onDelete: Cascade)
+  solicitud         solicitudes? @relation(fields: [solicitudId], references: [id], onDelete: Cascade)
+  @@map("notificaciones")
+}
+
+model auditoria_general {
+  id               Int      @id @default(autoincrement())
+  usuarioId        Int?
+  usuarioInternoId Int?
+  accion           String
+  entidad          String?
+  entidadId        Int?
+  detalle          Json?
+  ip               String?
+  userAgent        String?
+  createdAt        DateTime @default(now())
+  usuario          usuarios? @relation(fields: [usuarioId], references: [id])
+  usuarioInterno   usuarios_internos? @relation(fields: [usuarioInternoId], references: [id])
+  @@index([createdAt])
+  @@map("auditoria_general")
+}
+
+model departamentos {
+  id          Int     @id @default(autoincrement())
+  abrev       String  @unique
+  descripcion String
+  legacyId    Int?    @unique @map("legacy_id")
+  @@map("departamentos")
+}
+
+model grados {
+  id          Int    @id @default(autoincrement())
+  descripcion String
+  legacyId    Int?   @unique @map("legacy_id")
+  @@map("grados")
+}
+
+model oficinas {
+  id          Int    @id @default(autoincrement())
+  descripcion String
+  legacyId    Int?   @unique @map("legacy_id")
+  @@map("oficinas")
+}
+
+model niveles_educacion {
+  id          Int    @id @default(autoincrement())
+  descripcion String
+  legacyId    Int?   @unique @map("legacy_id")
+  @@map("niveles_educacion")
+}
+
+model niveles_riesgo {
+  id          Int    @id @default(autoincrement())
+  descripcion String
+  legacyId    Int?   @unique @map("legacy_id")
+  @@map("niveles_riesgo")
+}
