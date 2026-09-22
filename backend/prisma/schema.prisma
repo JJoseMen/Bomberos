@@ -68,6 +68,14 @@ enum EstadoDocumento {
   RECHAZADO
 }
 
+enum EstadoDeclaracion {
+  PENDIENTE
+  GENERADA
+  FIRMADA_SUBIDA
+  APROBADA
+  RECHAZADA
+}
+
 enum EstadoPago {
   PENDIENTE
   VERIFICADO
@@ -83,6 +91,16 @@ enum TipoDocumento {
   NIT
   BOLETA_DEPOSITO
   CERTIFICADO_ANTERIOR
+  CI
+  TITULO_PROFESIONAL
+  ESCRITURA_PUBLICA
+  PODER_REPRESENTANTE
+  LICENCIA_FUNCIONAMIENTO
+  REGISTRO_COMERCIO
+  CERTIFICADO_NIT
+  PLANILLA_EXCEL
+  COMPROBANTE_PAGO
+  DECLARACION_JURADA_FIRMADA
   OTRO
 }
 
@@ -335,13 +353,22 @@ model certificados {
 }
 
 model declaraciones_juradas {
-  id              Int       @id @default(autoincrement())
-  solicitudId     Int       @unique
-  codigoJurada    String    @unique
-  contenido       String    @db.Text
-  aceptada        Boolean   @default(true)
-  fechaAceptacion DateTime  @default(now())
-  solicitud       solicitudes @relation(fields: [solicitudId], references: [id], onDelete: Cascade)
+  id                Int                 @id @default(autoincrement())
+  solicitudId       Int                 @unique
+  codigoDeclaracion String              @unique
+  pdfGeneradoRuta   String
+  pdfGeneradoHash   String
+  pdfFirmadoRuta    String?
+  pdfFirmadoHash    String?
+  firmadoPor        String
+  ciFirmante        String
+  fechaFirma        DateTime?
+  ipFirma           String?
+  estado            EstadoDeclaracion  @default(PENDIENTE)
+  observacion       String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  solicitud         solicitudes         @relation(fields: [solicitudId], references: [id], onDelete: Cascade)
   @@map("declaraciones_juradas")
 }
 

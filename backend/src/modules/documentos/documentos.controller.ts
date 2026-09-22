@@ -8,11 +8,15 @@ import {
   Patch,
   Post,
   Query,
+  Res,
   UploadedFile,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { StreamableFile } from '@nestjs/common';
+import { createReadStream } from 'fs';
+import type { Response } from 'express';
 import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
@@ -51,8 +55,21 @@ export class DocumentosController {
 
   @Get('documentos/:id/descargar')
   @ApiOperation({ summary: 'Descargar documento' })
-  async descargar(@Param('id', ParseIntPipe) id: number) {
-    return this.documentosService.descargar(id);
+  async descargar(
+    @Param('id', ParseIntPipe) id: number,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const info = await this.documentosService.descargar(id);
+    res.setHeader(
+      'Content-Type',
+      info.mime ?? 'application/octet-stream',
+    );
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="${encodeURIComponent(info.nombre)}"`,
+    );
+    const stream = createReadStream(info.ruta);
+    return new StreamableFile(stream);
   }
 
   @Patch('documentos/:id/revisar')

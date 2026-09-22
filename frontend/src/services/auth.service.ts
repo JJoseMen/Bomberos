@@ -1,5 +1,6 @@
 import api from '@/lib/api';
 import type { LoginDto, VerifyOtpDto, RegisterDto, AuthResponse } from '@/types/auth.types';
+import type { TipoPersona } from '@/types/common.types';
 
 export const authService = {
   async register(data: RegisterDto): Promise<AuthResponse> {
@@ -22,7 +23,14 @@ export const authService = {
     return res.data;
   },
 
-  async getProfile(): Promise<{ id: number; email: string; nombre: string; tipo: string }> {
+  async getProfile(): Promise<{
+    id: number;
+    email: string;
+    nombre: string;
+    apellido: string;
+    tipo: string;
+    tipoPersona?: TipoPersona;
+  }> {
     const res = await api.get('/auth/perfil');
     return res.data;
   },

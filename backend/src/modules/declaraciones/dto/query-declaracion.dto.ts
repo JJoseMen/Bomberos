@@ -1,11 +1,23 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDateString, IsNumberString, IsOptional, IsString } from 'class-validator';
+import {
+  IsDateString,
+  IsEnum,
+  IsNumberString,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { EstadoDeclaracion } from '@prisma/client';
 
 export class QueryDeclaracionDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
   search?: string;
+
+  @ApiPropertyOptional({ enum: EstadoDeclaracion })
+  @IsOptional()
+  @IsEnum(EstadoDeclaracion)
+  estado?: EstadoDeclaracion;
 
   @ApiPropertyOptional({ example: '2026-01-01' })
   @IsOptional()

@@ -35,6 +35,7 @@ export interface AuthUser {
   nombre: string;
   apellido: string;
   tipo: string;
+  tipoPersona?: TipoPersona;
 }
 
 export interface AuthResponse {

@@ -13,7 +13,7 @@ import { KerberosService } from './services/kerberos.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { VerifyOtpDto } from './dto/verify-otp.dto';
-import { TipoCodigo } from '@prisma/client';
+import { Prisma, TipoCodigo } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -41,17 +41,46 @@ export class AuthService {
     }
     const passwordHash = await bcrypt.hash(dto.password, 10);
     const [nombre, ...apellidoParts] = dto.nombreCompleto.split(' ');
-    const user = await this.prisma.usuarios.create({
-      data: {
-        nombre,
-        apellido: apellidoParts.join(' ') || nombre,
-        email: dto.email,
-        telefono: dto.telefono,
-        passwordHash,
-        tipo: dto.tipoPersona,
-      },
-    });
-    return { message: 'Usuario registrado', userId: user.id };
+    const apellido = apellidoParts.join(' ') || nombre;
+
+    const ejecutar = async (tx: Prisma.TransactionClient) => {
+      const user = await tx.usuarios.create({
+        data: {
+          nombre,
+          apellido,
+          email: dto.email,
+          telefono: dto.telefono,
+          passwordHash,
+          tipo: dto.tipoPersona,
+        },
+      });
+
+      let empresaId: number | null = null;
+      if (dto.tipoPersona === 'JURIDICA' && dto.nit) {
+        const empresa = await tx.empresas.create({
+          data: {
+            nit: dto.nit,
+            razonSocial: dto.nombreCompleto,
+            representanteLegal: dto.nombreCompleto,
+            email: dto.email,
+            telefono: dto.telefono,
+          },
+        });
+        empresaId = empresa.id;
+        await tx.usuarios_empresas.create({
+          data: {
+            usuarioId: user.id,
+            empresaId: empresa.id,
+            rol: 'REPRESENTANTE',
+          },
+        });
+      }
+
+      return { userId: user.id, empresaId };
+    };
+
+    const resultado = await this.prisma.$transaction(ejecutar);
+    return { message: 'Usuario registrado', ...resultado };
   }
 
   async login(dto: LoginDto) {
@@ -95,6 +124,7 @@ export class AuthService {
       sub: user.id,
       email: user.email,
       tipo: 'externo',
+      tipoPersona: user.tipo,
     });
     await this.prisma.sesiones.deleteMany({
       where: { usuarioId: user.id },
@@ -114,6 +144,7 @@ export class AuthService {
         nombre: user.nombre,
         apellido: user.apellido,
         tipo: 'EXTERNO',
+        tipoPersona: user.tipo,
       },
     };
   }

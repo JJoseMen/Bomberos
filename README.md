@@ -1,28 +1,117 @@
 # SIPPCI — Sistema de Prevención y Protección Contra Incendios
 
-Dirección Nacional de Bomberos · Policía Boliviana
+## Descripción
 
-## Stack técnico
+Plataforma integral para la gestión de trámites de la Dirección Nacional de Bomberos (DNB) — Policía Boliviana.
 
-| Componente       | Tecnología                       |
-|------------------|----------------------------------|
-| Frontend         | React 19 · TypeScript 5 · Vite 6 |
-| Backend          | NestJS 11 · Prisma 5             |
-| Base de datos    | PostgreSQL 17                    |
-| Autenticación    | JWT + OTP / Kerberos SSO (mock)  |
-| UI               | Tailwind v3 · Radix · Lucide     |
-| Test             | Vitest · Playwright · Jest       |
+## Stack
 
-## Estructura de carpetas
+- Backend: NestJS 10.4 + Prisma 5.22 + PostgreSQL 16.10
+- Frontend: React 19 + Vite 6 + TypeScript 5.6
+- Estado: Zustand 5 + TanStack Query
+- Formularios: React Hook Form + Zod
+- Router: React Router 7
+- Tablas: TanStack Table
+- Estilos: CSS Modules + SCSS
+
+## Estructura
 
 ```
 SIPPCI/
 ├── backend/          # NestJS + Prisma
-├── frontend/         # React 19 + Vite
+├── frontend/         # React + Vite
 ├── docs/             # Documentación
-└── scripts/          # Scripts utilitarios
+├── scripts/          # Scripts PowerShell
+└── README.md
 ```
 
-## Instalación (pendiente)
+## Requisitos
 
-Ver `docs/INSTALL.md` cuando esté disponible.
+- Node.js 20+
+- PostgreSQL 16+
+- npm 10+
+
+## Instalación
+
+### 1. Clonar el repositorio
+
+```bash
+git clone <url>
+cd SIPPCI
+```
+
+### 2. Backend
+
+```bash
+cd backend
+npm install
+cp .env.example .env
+# Editar .env con DATABASE_URL
+npx prisma migrate dev
+npx prisma db seed
+npm run build
+npm run start:dev
+```
+
+### 3. Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### 4. Levantar todo
+
+```bash
+.\scripts\dev.ps1
+```
+
+## URLs
+
+- Backend: http://localhost:3001/api
+- Swagger: http://localhost:3001/api/docs
+- Frontend: http://localhost:5173
+
+## Base de datos
+
+- 24 tablas + `_prisma_migrations`
+- 4 migraciones: `init`, `add_revisado_estado`, `add_renovacion_fields`, `add_fecha_entrega`
+- 11 estados en `EstadoSolicitud`
+- 67 endpoints en 16 controllers
+
+## Autenticación
+
+- Externos: email + password + OTP
+- Internos: Kerberos mock (`KERBEROS_MOCK_MODE=true`)
+- Roles: ADMIN, OFICIAL, CAJERO
+
+## Hallazgos y pendientes
+
+- SMTP sin configurar (OTP sale por consola `[DEV]`)
+- 8 warnings de lint (variables sin usar)
+- Placeholders `pages/public/Login|Register` (eliminados)
+- Migración Sass pendiente (`@import` → `@use`)
+- Registro JURIDICA crea empresa + vínculo `usuarios_empresas` (corregido)
+
+## Credenciales de prueba
+
+- Admin: http://localhost:5173/kerberos/callback?ticket=mock-ticket-admin
+- Oficial: http://localhost:5173/kerberos/callback?ticket=mock-ticket-oficial
+- Cajero: http://localhost:5173/kerberos/callback?ticket=mock-ticket-cajero
+
+## Documentación adicional
+
+- `docs/API.md`
+- `docs/BASE_DATOS.md`
+- `docs/INSTALACION.md`
+- `docs/LINT_WARNINGS.md`
+- `docs/PENDIENTES.md`
+
+## Autor
+
+[Juan Jose Mendoza Condori]
+
+## Licencia
+
+[Universiadad Publica de El Alto(D.N.T.T.)]

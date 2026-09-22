@@ -23,7 +23,6 @@ const DEPARTAMENTOS = [
 export function RegisterPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [tipoPersona, setTipoPersona] = useState<'NATURAL' | 'JURIDICA'>('NATURAL');
 
   const {
     register,
@@ -102,28 +101,18 @@ export function RegisterPage() {
           </p>
           <div className={styles.radioGroup}>
             <label
-              className={`${styles.radioCard} ${tipoPersona === 'NATURAL' ? styles.selected : ''}`}
+              className={`${styles.radioCard} ${watchTipo === 'NATURAL' ? styles.selected : ''}`}
             >
-              <input
-                type="radio"
-                value="NATURAL"
-                {...register('tipoPersona')}
-                onChange={() => setTipoPersona('NATURAL')}
-              />
+              <input type="radio" value="NATURAL" {...register('tipoPersona')} />
               <div>
                 <div className={styles.radioLabel}>No, actuo de forma independiente</div>
                 <div className={styles.radioDesc}>Persona Natural</div>
               </div>
             </label>
             <label
-              className={`${styles.radioCard} ${tipoPersona === 'JURIDICA' ? styles.selected : ''}`}
+              className={`${styles.radioCard} ${watchTipo === 'JURIDICA' ? styles.selected : ''}`}
             >
-              <input
-                type="radio"
-                value="JURIDICA"
-                {...register('tipoPersona')}
-                onChange={() => setTipoPersona('JURIDICA')}
-              />
+              <input type="radio" value="JURIDICA" {...register('tipoPersona')} />
               <div>
                 <div className={styles.radioLabel}>Si, represento a una empresa</div>
                 <div className={styles.radioDesc}>Persona Juridica</div>

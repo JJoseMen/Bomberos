@@ -86,6 +86,8 @@ export class SolicitudesService {
       where: { usuarioId },
       include: {
         empresa: { select: { id: true, razonSocial: true } },
+        documentos: { select: { id: true, tipo: true, nombreOriginal: true, estado: true } },
+        pagos: { select: { id: true, numeroOperacion: true, monto: true, estado: true } },
       },
       orderBy: { createdAt: 'desc' },
     });

@@ -1,6 +1,9 @@
 import { EstadoSolicitud, TipoTramite } from './common.types';
 import { Usuario } from './usuario.types';
 import { Empresa } from './empresa.types';
+import { Documento } from './documento.types';
+import { Pago } from './pago.types';
+import { Certificado } from './certificado.types';
 
 export interface Solicitud {
   id: number;
@@ -17,6 +20,8 @@ export interface Solicitud {
   solicitudAnteriorId?: number;
   createdAt: string;
   updatedAt: string;
+  documentos?: Pick<Documento, 'id' | 'tipo' | 'nombreOriginal' | 'estado'>[];
+  pagos?: Pick<Pago, 'id' | 'numeroOperacion' | 'monto' | 'estado'>[];
 }
 
 export interface SolicitudWithRelations extends Solicitud {
@@ -26,6 +31,7 @@ export interface SolicitudWithRelations extends Solicitud {
   pagos?: Pago[];
   certificados?: Certificado[];
   historial?: HistorialSolicitud[];
+  declaracionesJuradas?: import('./declaracion.types').DeclaracionJurada | null;
 }
 
 export interface CreateSolicitudDto {
@@ -46,8 +52,5 @@ export interface HistorialSolicitud {
   estadoNuevo: string;
   comentario?: string;
   createdAt: string;
+  realizadoPor?: { id: number; nombre: string };
 }
-
-import { Documento } from './documento.types';
-import { Pago } from './pago.types';
-import { Certificado } from './certificado.types';

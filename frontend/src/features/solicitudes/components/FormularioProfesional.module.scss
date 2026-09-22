@@ -25,3 +25,16 @@
   gap: 0.5rem;
   justify-content: flex-end;
 }
+.error {
+  color: #d32f2f;
+  font-size: 0.75rem;
+}
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  background: #ffebee;
+  color: #c62828;
+  font-size: 0.75rem;
+  font-weight: 600;
+}

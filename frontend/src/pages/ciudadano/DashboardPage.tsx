@@ -23,6 +23,9 @@ export function DashboardPage() {
     <div className={styles['dashboard']}>
       <div className={styles['header']}>
         <div className={styles['welcome']}>Bienvenido, {user?.nombre || 'Ciudadano'}</div>
+        <div className={styles['tipo']}>
+          {user?.tipoPersona === 'JURIDICA' ? 'Persona Juridica' : 'Persona Natural'}
+        </div>
       </div>
 
       <div className={styles['kpis']}>

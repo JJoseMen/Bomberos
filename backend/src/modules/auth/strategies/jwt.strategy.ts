@@ -9,6 +9,7 @@ export interface JwtPayload {
   email: string;
   tipo: 'externo' | 'interno';
   rol?: string;
+  tipoPersona?: 'NATURAL' | 'JURIDICA';
 }
 
 @Injectable()
@@ -54,6 +55,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       nombre: user.nombre,
       apellido: user.apellido,
       tipo: 'externo' as const,
+      tipoPersona: user.tipo,
     };
   }
 }

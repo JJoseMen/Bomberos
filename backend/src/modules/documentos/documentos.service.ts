@@ -41,6 +41,15 @@ export class DocumentosService {
       'NIT',
       'BOLETA_DEPOSITO',
       'CERTIFICADO_ANTERIOR',
+      'CI',
+      'TITULO_PROFESIONAL',
+      'ESCRITURA_PUBLICA',
+      'PODER_REPRESENTANTE',
+      'LICENCIA_FUNCIONAMIENTO',
+      'REGISTRO_COMERCIO',
+      'CERTIFICADO_NIT',
+      'PLANILLA_EXCEL',
+      'COMPROBANTE_PAGO',
       'OTRO',
     ];
     if (!TIPOS_VALIDOS.includes(tipoDocumento))
