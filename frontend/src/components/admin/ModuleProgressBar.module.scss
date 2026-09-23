@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-3;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  min-width: 0;
+}
+
+.dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: $radius-full;
+  flex-shrink: 0;
+}
+
+.nombre {
+  font-size: $font-size-base;
+  font-weight: 500;
+  color: $color-gray-900;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.right {
+  display: flex;
+  align-items: baseline;
+  gap: $spacing-2;
+  flex-shrink: 0;
+}
+
+.tramites {
+  font-size: $font-size-sm;
+  color: $color-gray-600;
+}
+
+.porcentaje {
+  font-size: $font-size-sm;
+  font-weight: 500;
+  color: $color-gray-900;
+}
+
+.barra {
+  height: 0.5rem;
+  background: $color-gray-100;
+  border-radius: $radius-full;
+  overflow: hidden;
+}
+
+.relleno {
+  height: 100%;
+  border-radius: $radius-full;
+  transition: width 0.3s ease;
+}

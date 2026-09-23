@@ -181,7 +181,13 @@ export class AuthService {
   async kerberosExchange(ticket: string) {
     this.logger.log('kerberosExchange iniciado');
     const payload = await this.kerberos.validarTicket(ticket);
-    const ROLES_VALIDOS = ['ADMINISTRADOR', 'OFICIAL', 'CAJERO'];
+    const ROLES_VALIDOS = [
+      'ADMIN',
+      'GESTOR_CUMPLIMIENTO',
+      'GESTOR_CAPACITACIONES',
+      'GESTOR_REGISTRO_PROFESIONAL',
+      'CAJERO',
+    ];
     if (!ROLES_VALIDOS.includes(payload.rol)) {
       throw new BadRequestException(`Rol SSO no valido: ${payload.rol}`);
     }
@@ -243,8 +249,10 @@ export class AuthService {
       },
     });
     const TIPO_POR_ROL: Record<string, string> = {
-      ADMINISTRADOR: 'ADMIN',
-      OFICIAL: 'OFICIAL',
+      ADMIN: 'ADMIN',
+      GESTOR_CUMPLIMIENTO: 'GESTOR_CUMPLIMIENTO',
+      GESTOR_CAPACITACIONES: 'GESTOR_CAPACITACIONES',
+      GESTOR_REGISTRO_PROFESIONAL: 'GESTOR_REGISTRO_PROFESIONAL',
       CAJERO: 'CAJERO',
     };
     return {
@@ -255,7 +263,7 @@ export class AuthService {
         nombre: user.nombre,
         apellido: user.apellido,
         rol: user.rol,
-        tipo: TIPO_POR_ROL[String(user.rol)] ?? 'OFICIAL',
+        tipo: TIPO_POR_ROL[String(user.rol)] ?? 'GESTOR_CUMPLIMIENTO',
       },
     };
   }

@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: $font-size-sm;
+}
+
+.breadcrumbItem {
+  display: inline-flex;
+  align-items: center;
+}
+
+.separator {
+  margin: 0 $spacing-2;
+  color: $color-gray-400;
+}
+
+.breadcrumbInactive {
+  color: $color-gray-600;
+}
+
+.breadcrumbActive {
+  font-weight: 600;
+  color: $color-gray-900;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: $color-gray-900;
+}
+
+.subtitulo {
+  margin: 0;
+  font-size: $font-size-base;
+  color: $color-gray-600;
+}

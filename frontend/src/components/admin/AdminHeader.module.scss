@@ -1,0 +1,203 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-4;
+  padding: 0 $spacing-6;
+  background: $color-white;
+  border-bottom: 1px solid $color-gray-200;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  flex: 1;
+  min-width: 0;
+}
+
+.menuBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: $color-gray-600;
+  cursor: pointer;
+  padding: $spacing-2;
+  border-radius: $radius-md;
+
+  &:hover {
+    background: $color-gray-100;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+.searchWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+}
+
+.searchIcon {
+  position: absolute;
+  left: $spacing-3;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $color-gray-400;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: $spacing-2 $spacing-4 $spacing-2 2.5rem;
+  font-size: $font-size-sm;
+  color: $color-gray-900;
+  background: $color-gray-100;
+  border: 1px solid transparent;
+  border-radius: $radius-md;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+
+  &::placeholder {
+    color: $color-gray-500;
+  }
+
+  &:focus {
+    background: $color-white;
+    border-color: $color-primary;
+  }
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  flex-shrink: 0;
+}
+
+.systemBadge {
+  display: none;
+  align-items: center;
+  gap: $spacing-2;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: $color-gray-600;
+  background: $color-gray-100;
+  padding: $spacing-2 $spacing-3;
+  border-radius: $radius-full;
+  white-space: nowrap;
+
+  @media (min-width: $breakpoint-lg) {
+    display: inline-flex;
+  }
+}
+
+.systemDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: $radius-full;
+  background: $color-success;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.notifBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: $color-gray-600;
+  cursor: pointer;
+  padding: $spacing-2;
+  border-radius: $radius-md;
+
+  &:hover {
+    background: $color-gray-100;
+  }
+}
+
+.notifBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 1.125rem;
+  height: 1.125rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.25rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: $color-white;
+  background: $color-error;
+  border-radius: $radius-full;
+}
+
+.divider {
+  width: 1px;
+  height: 1.5rem;
+  background: $color-gray-200;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+}
+
+.avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-sm;
+  font-weight: 700;
+  color: $color-white;
+  background: $color-primary;
+  border-radius: $radius-full;
+  flex-shrink: 0;
+}
+
+.profileInfo {
+  display: none;
+  flex-direction: column;
+  line-height: 1.3;
+
+  @media (min-width: $breakpoint-md) {
+    display: flex;
+  }
+}
+
+.profileName {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  color: $color-gray-900;
+  white-space: nowrap;
+}
+
+.profileRole {
+  font-size: $font-size-xs;
+  color: $color-gray-500;
+  white-space: nowrap;
+}

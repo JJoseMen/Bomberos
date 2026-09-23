@@ -1,46 +1,87 @@
 .page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: $spacing-6;
 }
-.title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0;
-}
-.kpis {
+
+.kpisGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: $spacing-4;
 }
-.kpi {
-  background: #fff;
-  border-radius: 0.5rem;
-  padding: 1.2rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  text-align: center;
+
+.card {
+  background: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-sm;
+  padding: $spacing-6;
 }
-.kpiNum {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1a237e;
-}
-.kpiLbl {
-  font-size: 0.8rem;
-  color: #757575;
-}
-.bars {
+
+.cardHeader {
   display: flex;
-  gap: 0.5rem;
-  align-items: flex-end;
-  height: 100px;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-4;
+  margin-bottom: $spacing-4;
+  flex-wrap: wrap;
 }
-.bar {
-  flex: 1;
-  background: #1a237e;
-  border-radius: 4px 4px 0 0;
-  min-height: 6px;
+
+.cardTitle {
+  margin: 0;
+  font-size: $font-size-lg;
+  font-weight: 700;
+  color: $color-gray-900;
+}
+
+.cardSubtitle {
+  margin: $spacing-1 0 $spacing-4;
+  font-size: $font-size-sm;
+  color: $color-gray-600;
+}
+
+.searchInput {
+  padding: $spacing-2 $spacing-4;
+  font-size: $font-size-sm;
+  color: $color-gray-900;
+  background: $color-gray-100;
+  border: 1px solid transparent;
+  border-radius: $radius-md;
+  outline: none;
+  min-width: 16rem;
+
+  &::placeholder {
+    color: $color-gray-500;
+  }
+
+  &:focus {
+    background: $color-white;
+    border-color: $color-primary;
+  }
+}
+
+.distribucionList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.iconBlue {
+  color: $color-info;
+}
+
+.iconAmber {
+  color: $color-warning;
+}
+
+.iconEmerald {
+  color: $color-success;
+}
+
+.iconRed {
+  color: $color-error;
+}
+
+.valorRed {
+  color: $color-error;
 }

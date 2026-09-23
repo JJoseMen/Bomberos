@@ -1,0 +1,75 @@
+.topBar {
+  height: 36px;
+  background: #233144;
+  color: #e2e8f0;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.container {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.leftText {
+  font-weight: 500;
+  color: #cbd5e1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fullText {
+  display: none;
+
+  @media (min-width: 768px) {
+    display: inline;
+  }
+}
+
+.shortText {
+  display: inline;
+  font-size: 10px;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.rightText {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  color: #f1f5f9;
+}
+
+.icon {
+  color: #f8fafc;
+  flex-shrink: 0;
+}
+
+.emergencyLabel {
+  font-weight: 400;
+  color: #cbd5e1;
+
+  @media (max-width: 360px) {
+    display: none;
+  }
+}
+
+.emergencyNumber {
+  font-weight: 700;
+  color: #fff;
+  font-size: 12px;
+}

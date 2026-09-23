@@ -27,10 +27,17 @@ export function KerberosCallbackPage() {
           setAuth(res.access_token, res.user);
           toast.success('Autenticacion exitosa');
           const rol = (res.user as { tipo?: string }).tipo;
-          if (rol === 'ADMIN') navigate('/admin/dashboard');
-          else if (rol === 'OFICIAL') navigate('/oficial/dashboard');
-          else if (rol === 'CAJERO') navigate('/cajero/dashboard');
-          else navigate('/dashboard');
+
+          const ROLE_ROUTES: Record<string, string> = {
+            ADMIN: '/admin/dashboard',
+            GESTOR_CUMPLIMIENTO: '/admin/dashboard',
+            GESTOR_CAPACITACIONES: '/admin/dashboard',
+            GESTOR_REGISTRO_PROFESIONAL: '/admin/dashboard',
+            CAJERO: '/admin/dashboard',
+          };
+
+          const targetRoute = rol && ROLE_ROUTES[rol] ? ROLE_ROUTES[rol] : '/dashboard';
+          navigate(targetRoute);
         } else {
           setError(true);
         }

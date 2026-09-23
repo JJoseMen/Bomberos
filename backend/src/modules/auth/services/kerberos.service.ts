@@ -17,16 +17,27 @@ export class KerberosService {
 
   private mockPayload(ticket: string): KerberosPayload {
     const t = (ticket || '').toLowerCase();
-    const rol = t.includes('admin')
-      ? 'ADMINISTRADOR'
-      : t.includes('cajero')
-        ? 'CAJERO'
-        : 'OFICIAL';
-    const slug = rol.toLowerCase();
+
+    let rol: string;
+    if (t.includes('admin')) {
+      rol = 'ADMIN';
+    } else if (t.includes('cumplimiento')) {
+      rol = 'GESTOR_CUMPLIMIENTO';
+    } else if (t.includes('capacitacion')) {
+      rol = 'GESTOR_CAPACITACIONES';
+    } else if (t.includes('registro')) {
+      rol = 'GESTOR_REGISTRO_PROFESIONAL';
+    } else if (t.includes('cajero')) {
+      rol = 'CAJERO';
+    } else {
+      // Fallback: GESTOR_CUMPLIMIENTO (rol operativo básico)
+      rol = 'GESTOR_CUMPLIMIENTO';
+    }
+
     return {
       externalId: `KERB-${Date.now()}`,
-      nombreCompleto: 'Usuario Kerberos Mock',
-      email: `${slug}.mock@sippci.gob.bo`,
+      nombreCompleto: `Usuario ${rol} Mock`,
+      email: `${rol.toLowerCase()}.mock@sippci.gob.bo`,
       grado: 'Tcn. 1',
       rol,
     };

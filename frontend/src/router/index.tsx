@@ -14,6 +14,7 @@ import { ConsultaPublicaPage } from '@/pages/public/ConsultaPublicaPage';
 import { LoginPage } from '@/pages/auth/LoginPage';
 import { RegisterPage } from '@/pages/auth/RegisterPage';
 import { VerifyOtpPage } from '@/pages/auth/VerifyOtpPage';
+import { KerberosLoginPage } from '@/pages/auth/KerberosLoginPage';
 import { KerberosCallbackPage } from '@/pages/auth/KerberosCallbackPage';
 import { DashboardPage } from '@/pages/ciudadano/DashboardPage';
 import { MisSolicitudesPage } from '@/pages/ciudadano/MisSolicitudesPage';
@@ -53,6 +54,7 @@ export const router = createBrowserRouter([
       { path: '/login', element: <LoginPage /> },
       { path: '/register', element: <RegisterPage /> },
       { path: '/verify-otp', element: <VerifyOtpPage /> },
+      { path: '/auth/kerberos', element: <KerberosLoginPage /> },
       { path: '/kerberos/callback', element: <KerberosCallbackPage /> },
     ],
   },
@@ -73,7 +75,15 @@ export const router = createBrowserRouter([
   },
   {
     element: (
-      <ProtectedRoute allowedRoles={['ADMIN']}>
+      <ProtectedRoute
+        allowedRoles={[
+          'ADMIN',
+          'GESTOR_CUMPLIMIENTO',
+          'GESTOR_CAPACITACIONES',
+          'GESTOR_REGISTRO_PROFESIONAL',
+          'CAJERO',
+        ]}
+      >
         <AdminLayout />
       </ProtectedRoute>
     ),
@@ -90,7 +100,15 @@ export const router = createBrowserRouter([
   },
   {
     element: (
-      <ProtectedRoute allowedRoles={['OFICIAL']}>
+      <ProtectedRoute
+        allowedRoles={[
+          'ADMIN',
+          'GESTOR_CUMPLIMIENTO',
+          'GESTOR_CAPACITACIONES',
+          'GESTOR_REGISTRO_PROFESIONAL',
+          'CAJERO',
+        ]}
+      >
         <OficialLayout />
       </ProtectedRoute>
     ),
@@ -104,7 +122,15 @@ export const router = createBrowserRouter([
   },
   {
     element: (
-      <ProtectedRoute allowedRoles={['CAJERO']}>
+      <ProtectedRoute
+        allowedRoles={[
+          'ADMIN',
+          'GESTOR_CUMPLIMIENTO',
+          'GESTOR_CAPACITACIONES',
+          'GESTOR_REGISTRO_PROFESIONAL',
+          'CAJERO',
+        ]}
+      >
         <CajeroLayout />
       </ProtectedRoute>
     ),

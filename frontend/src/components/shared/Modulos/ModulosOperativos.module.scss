@@ -1,0 +1,222 @@
+.section {
+  background: #f8fafc;
+  padding: 3rem 0;
+
+  @media (min-width: 768px) {
+    padding: 4rem 0;
+  }
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 2rem;
+}
+
+.badge {
+  display: inline-flex;
+  padding: 0.3rem 0.7rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #c62828;
+  background: #fff;
+  border: 1px solid #fecaca;
+  border-radius: 999px;
+}
+
+.title {
+  margin: 0.75rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0b132b;
+  line-height: 1.2;
+
+  @media (min-width: 768px) {
+    font-size: 1.875rem;
+  }
+}
+
+.subtitle {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* Grid 4 cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+  width: 100%;
+
+  &:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.active {
+  border-color: #c62828;
+  background: #fff5f5;
+  box-shadow: 0 4px 16px rgba(198, 40, 40, 0.08);
+
+  .cardIcon {
+    background: #c62828;
+    color: #fff;
+  }
+}
+
+.cardIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 0.5rem;
+  background: #f1f5f9;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.cardTitle {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #0b132b;
+  text-transform: uppercase;
+}
+
+.cardSubtitle {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (min-width: 1024px) {
+    white-space: normal;
+  }
+}
+
+.chevron {
+  color: #94a3b8;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+  color: #c62828;
+}
+
+/* Detalle inferior */
+.detalle {
+  margin-top: 1rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #c62828;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.detalleTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0b132b;
+  margin: 0;
+}
+
+.detalleDesc {
+  margin: 0.6rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #475569;
+}
+
+.detalleActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* Modal */
+.modalContent {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.modalIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fee2e2;
+  color: #c62828;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.modalText {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #475569;
+  margin: 0;
+}

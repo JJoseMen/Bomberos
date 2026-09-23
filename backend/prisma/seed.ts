@@ -6,58 +6,148 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Seeding database...');
 
-  const adminPasswordHash = await bcrypt.hash('Admin123!', 10);
+  const adminPasswordHash = await bcrypt.hash('Bomberos2026*', 10);
   const userPasswordHash = await bcrypt.hash('User123!', 10);
 
+  const internoPasswordHash = adminPasswordHash;
+
+  // Limpiar legacy que colisiona por email antes de upsert
+  await prisma.usuarios_internos.deleteMany({
+    where: { ci: { in: ['12345678', '87654321', '11223344'] } },
+  });
+
   const admin = await prisma.usuarios_internos.upsert({
-    where: { ci: '12345678' },
-    update: {},
-    create: {
-      ci: '12345678',
+    where: { ci: '7711111' },
+    update: {
       nombre: 'Admin',
-      apellido: 'SIPPCI',
+      apellido: 'Sistema',
       grado: 'Tcn. 1',
-      rol: RolInterno.ADMINISTRADOR,
-      unidad: 'Direccion Nacional de Bomberos',
+      rol: RolInterno.ADMIN,
+      unidad: 'Comando Nacional',
       email: 'admin@sippci.gob.bo',
-      passwordHash: adminPasswordHash,
+      passwordHash: internoPasswordHash,
+      activo: true,
+    },
+    create: {
+      ci: '7711111',
+      nombre: 'Admin',
+      apellido: 'Sistema',
+      grado: 'Tcn. 1',
+      rol: RolInterno.ADMIN,
+      unidad: 'Comando Nacional',
+      email: 'admin@sippci.gob.bo',
+      passwordHash: internoPasswordHash,
       activo: true,
     },
   });
 
-  const oficial = await prisma.usuarios_internos.upsert({
-    where: { ci: '87654321' },
-    update: {},
+  const gestorCumplimiento = await prisma.usuarios_internos.upsert({
+    where: { ci: '9905200' },
+    update: {
+      nombre: 'Gestor',
+      apellido: 'Cumplimiento',
+      grado: 'Tcn. 1',
+      rol: RolInterno.GESTOR_CUMPLIMIENTO,
+      unidad: 'Comando Nacional',
+      email: 'cumplimiento@sippci.gob.bo',
+      passwordHash: internoPasswordHash,
+      activo: true,
+    },
     create: {
-      ci: '87654321',
-      nombre: 'Oficial',
-      apellido: 'Demo',
-      grado: 'Sub.Tte.',
-      rol: RolInterno.OFICIAL,
-      unidad: 'Seccion de Aplicaciones',
-      email: 'oficial@sippci.gob.bo',
-      passwordHash: userPasswordHash,
+      ci: '9905200',
+      nombre: 'Gestor',
+      apellido: 'Cumplimiento',
+      grado: 'Tcn. 1',
+      rol: RolInterno.GESTOR_CUMPLIMIENTO,
+      unidad: 'Comando Nacional',
+      email: 'cumplimiento@sippci.gob.bo',
+      passwordHash: internoPasswordHash,
+      activo: true,
+    },
+  });
+
+  const gestorCapacitaciones = await prisma.usuarios_internos.upsert({
+    where: { ci: '6622222' },
+    update: {
+      nombre: 'Gestor',
+      apellido: 'Capacitaciones',
+      grado: 'Tcn. 1',
+      rol: RolInterno.GESTOR_CAPACITACIONES,
+      unidad: 'Comando Nacional',
+      email: 'capacitaciones@sippci.gob.bo',
+      passwordHash: internoPasswordHash,
+      activo: true,
+    },
+    create: {
+      ci: '6622222',
+      nombre: 'Gestor',
+      apellido: 'Capacitaciones',
+      grado: 'Tcn. 1',
+      rol: RolInterno.GESTOR_CAPACITACIONES,
+      unidad: 'Comando Nacional',
+      email: 'capacitaciones@sippci.gob.bo',
+      passwordHash: internoPasswordHash,
+      activo: true,
+    },
+  });
+
+  const gestorRegistro = await prisma.usuarios_internos.upsert({
+    where: { ci: '8812345' },
+    update: {
+      nombre: 'Gestor',
+      apellido: 'Registro',
+      grado: 'Tcn. 1',
+      rol: RolInterno.GESTOR_REGISTRO_PROFESIONAL,
+      unidad: 'Comando Nacional',
+      email: 'registro@sippci.gob.bo',
+      passwordHash: internoPasswordHash,
+      activo: true,
+    },
+    create: {
+      ci: '8812345',
+      nombre: 'Gestor',
+      apellido: 'Registro',
+      grado: 'Tcn. 1',
+      rol: RolInterno.GESTOR_REGISTRO_PROFESIONAL,
+      unidad: 'Comando Nacional',
+      email: 'registro@sippci.gob.bo',
+      passwordHash: internoPasswordHash,
       activo: true,
     },
   });
 
   const cajero = await prisma.usuarios_internos.upsert({
-    where: { ci: '11223344' },
-    update: {},
-    create: {
-      ci: '11223344',
+    where: { ci: '5555555' },
+    update: {
       nombre: 'Cajero',
-      apellido: 'Demo',
-      grado: 'Bom. 1',
+      apellido: 'Sistema',
+      grado: 'Tcn. 1',
       rol: RolInterno.CAJERO,
-      unidad: 'Caja Central',
+      unidad: 'Comando Nacional',
       email: 'cajero@sippci.gob.bo',
-      passwordHash: userPasswordHash,
+      passwordHash: internoPasswordHash,
+      activo: true,
+    },
+    create: {
+      ci: '5555555',
+      nombre: 'Cajero',
+      apellido: 'Sistema',
+      grado: 'Tcn. 1',
+      rol: RolInterno.CAJERO,
+      unidad: 'Comando Nacional',
+      email: 'cajero@sippci.gob.bo',
+      passwordHash: internoPasswordHash,
       activo: true,
     },
   });
 
-  console.log('Internal users:', { admin: admin.email, oficial: oficial.email, cajero: cajero.email });
+  console.log('Internal users:', {
+    admin: admin.email,
+    cumplimiento: gestorCumplimiento.email,
+    capacitaciones: gestorCapacitaciones.email,
+    registro: gestorRegistro.email,
+    cajero: cajero.email,
+  });
 
   const empresa = await prisma.empresas.upsert({
     where: { nit: '1234567890' },

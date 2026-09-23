@@ -21,6 +21,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
+        silenceDeprecations: ['import', 'global-builtin'],
         additionalData: '@use "@/assets/styles/variables" as *;',
       },
     },

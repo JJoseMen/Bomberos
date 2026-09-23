@@ -20,8 +20,10 @@ enum EstadoUsuario {
 }
 
 enum RolInterno {
-  ADMINISTRADOR
-  OFICIAL
+  ADMIN
+  GESTOR_CUMPLIMIENTO
+  GESTOR_CAPACITACIONES
+  GESTOR_REGISTRO_PROFESIONAL
   CAJERO
 }
 
@@ -163,7 +165,7 @@ model usuarios_internos {
   nombre         String
   apellido       String
   grado          String?
-  rol            RolInterno @default(OFICIAL)
+  rol            RolInterno
   unidad         String?
   email          String    @unique
   passwordHash   String
