@@ -112,10 +112,12 @@ enum TipoCertificado {
 }
 
 enum EstadoParticipante {
-  INSCRITO
+  PENDIENTE
+  FORMULARIO_GENERADO
   APROBADO
+  RECHAZADO
   REPROBADO
-  ABANDONO
+  CERTIFICADO_EMITIDO
 }
 
 enum EstadoInspeccion {
@@ -130,6 +132,9 @@ enum TipoNotificacion {
   SMS
   APP
   SISTEMA
+  PARTICIPANTE_APROBADO
+  PARTICIPANTE_RECHAZADO
+  CERTIFICADO_EMITIDO
 }
 
 model usuarios {
@@ -381,24 +386,33 @@ model cursos {
   costoBsf      Decimal? @db.Decimal(10, 2)
   activo        Boolean  @default(true)
   createdAt     DateTime @default(now())
-  participantes participantes_capacitacion[]
   participantesCursos participantes_cursos[]
   @@map("cursos")
 }
 
 model participantes_capacitacion {
-  id                 Int      @id @default(autoincrement())
-  cursoId            Int?
-  solicitudId        Int?
-  nombre             String
-  ci                 String
+  id                 Int                  @id @default(autoincrement())
+  solicitudId        Int
+  subCodigo          String               @unique
+  nombreCompleto     String
+  carnet             String
+  expedido           String
   email              String?
   telefono           String?
-  estado             EstadoParticipante @default(INSCRITO)
-  certificadoEmitido Boolean  @default(false)
-  createdAt          DateTime @default(now())
-  curso              cursos? @relation(fields: [cursoId], references: [id])
-  solicitud          solicitudes? @relation(fields: [solicitudId], references: [id])
+  esRepresentante    Boolean              @default(false)
+  estado             EstadoParticipante   @default(PENDIENTE)
+  observacion        String?
+  pdfFormularioRuta  String?
+  pdfFormularioHash  String?
+  pdfCertificadoRuta String?
+  pdfCertificadoHash String?
+  codigoCertificado  String?              @unique
+  fechaEmisionCert   DateTime?
+  instructor         String?
+  calificacion       String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  solicitud          solicitudes          @relation(fields: [solicitudId], references: [id], onDelete: Cascade)
   relaciones         participantes_cursos[]
   @@map("participantes_capacitacion")
 }
@@ -407,7 +421,7 @@ model participantes_cursos {
   id               Int      @id @default(autoincrement())
   participanteId   Int
   cursoId          Int
-  estado           EstadoParticipante @default(INSCRITO)
+  estado           EstadoParticipante @default(PENDIENTE)
   fechaInscripcion DateTime @default(now())
   participante     participantes_capacitacion @relation(fields: [participanteId], references: [id], onDelete: Cascade)
   curso            cursos @relation(fields: [cursoId], references: [id], onDelete: Cascade)

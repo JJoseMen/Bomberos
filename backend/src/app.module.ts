@@ -21,6 +21,7 @@ import { AdminModule } from './modules/admin/admin.module';
 import { PublicModule } from './modules/public/public.module';
 import { DevModule } from './modules/dev/dev.module';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
+import { AuditoriaModule } from './common/services/auditoria.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
       load: [configuration],
       validationSchema,
     }),
+    AuditoriaModule,
     PrismaModule,
     AuthModule,
     UsuariosModule,

@@ -1,4 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { EstadoParticipante } from '@prisma/client';
 import { IsEnum, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class QueryParticipanteDto {
@@ -7,15 +8,12 @@ export class QueryParticipanteDto {
   @IsString()
   search?: string;
 
-  @ApiPropertyOptional({ enum: ['EXTINTORES', 'PRIMEROS_AUXILIOS', 'EVACUACION', 'TRABAJOS_EN_ALTURA'] })
+  @ApiPropertyOptional({
+    enum: EstadoParticipante,
+  })
   @IsOptional()
-  @IsEnum(['EXTINTORES', 'PRIMEROS_AUXILIOS', 'EVACUACION', 'TRABAJOS_EN_ALTURA'] as const)
-  curso?: string;
-
-  @ApiPropertyOptional({ enum: ['INSCRITO', 'APROBADO', 'REPROBADO', 'ABANDONO'] })
-  @IsOptional()
-  @IsEnum(['INSCRITO', 'APROBADO', 'REPROBADO', 'ABANDONO'] as const)
-  estado?: string;
+  @IsEnum(EstadoParticipante)
+  estado?: EstadoParticipante;
 
   @ApiPropertyOptional({ default: 1 })
   @IsOptional()
