@@ -96,7 +96,7 @@ export class KerberosService {
         nombreCompleto: data.nombreCompleto ?? data.email,
         email: data.email,
         grado: data.grado ?? '',
-        rol: data.rol ?? 'OFICIAL',
+        rol: data.rol ?? 'GESTOR_CUMPLIMIENTO',
       };
     } catch (err) {
       if (err instanceof UnauthorizedException) throw err;

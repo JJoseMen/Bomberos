@@ -73,6 +73,7 @@ export function KerberosLoginPage() {
               <User size={18} className={styles.inputIcon} aria-hidden="true" />
               <input
                 id="ci"
+                name="ci"
                 type="text"
                 className={styles.input}
                 placeholder="Ej: 7711111"
@@ -93,6 +94,7 @@ export function KerberosLoginPage() {
               <Lock size={18} className={styles.inputIcon} aria-hidden="true" />
               <input
                 id="password"
+                name="password"
                 type="password"
                 className={styles.input}
                 placeholder="••••••••"

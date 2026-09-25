@@ -1,0 +1,39 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-3;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: $spacing-4;
+}
+
+.card {
+  background: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-xl;
+  padding: $spacing-5;
+}
+
+.cardFull {
+  background: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-xl;
+  padding: $spacing-5;
+  grid-column: 1 / -1;
+}
+
+.cardTitle {
+  margin: 0 0 $spacing-4;
+  font-size: $font-size-base;
+  font-weight: 700;
+  color: $color-gray-900;
+}

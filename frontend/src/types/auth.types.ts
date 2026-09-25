@@ -35,6 +35,7 @@ export interface AuthUser {
   nombre: string;
   apellido: string;
   tipo: string;
+  rol?: string;
   tipoPersona?: TipoPersona;
 }
 

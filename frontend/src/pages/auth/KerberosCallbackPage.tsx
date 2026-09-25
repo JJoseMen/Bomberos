@@ -26,7 +26,7 @@ export function KerberosCallbackPage() {
         if (res.access_token && res.user) {
           setAuth(res.access_token, res.user);
           toast.success('Autenticacion exitosa');
-          const rol = (res.user as { tipo?: string }).tipo;
+          const rol = (res.user as { rol?: string; tipo?: string }).rol ?? (res.user as { tipo?: string }).tipo;
 
           const ROLE_ROUTES: Record<string, string> = {
             ADMIN: '/admin/dashboard',

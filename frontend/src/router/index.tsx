@@ -11,6 +11,7 @@ import { UbicacionPage } from '@/pages/public/UbicacionPage';
 import { ContactosPage } from '@/pages/public/ContactosPage';
 import { TramitesPage } from '@/pages/public/TramitesPage';
 import { ConsultaPublicaPage } from '@/pages/public/ConsultaPublicaPage';
+import { ValidarCertificadoPage } from '@/pages/public/ValidarCertificadoPage';
 import { LoginPage } from '@/pages/auth/LoginPage';
 import { RegisterPage } from '@/pages/auth/RegisterPage';
 import { VerifyOtpPage } from '@/pages/auth/VerifyOtpPage';
@@ -30,6 +31,11 @@ import { CertificadosPage } from '@/pages/admin/CertificadosPage';
 import { PagosPage } from '@/pages/admin/PagosPage';
 import { ReportesPage } from '@/pages/admin/ReportesPage';
 import { AuditoriaPage } from '@/pages/admin/AuditoriaPage';
+import { SolicitudesListPage as ProfesionalesListPage } from '@/pages/admin/profesionales/SolicitudesListPage';
+import { SolicitudDetallePage as ProfesionalesDetallePage } from '@/pages/admin/profesionales/SolicitudDetallePage';
+import { ListaProfesionalesPage } from '@/pages/admin/profesionales/ListaProfesionalesPage';
+import { CertificadosEmitidosPage } from '@/pages/admin/profesionales/CertificadosEmitidosPage';
+import { ReportesPage as ReportesProfesionalesPage } from '@/pages/admin/profesionales/ReportesPage';
 import { OficialDashboardPage } from '@/pages/oficial/OficialDashboardPage';
 import { SolicitudesAsignadasPage } from '@/pages/oficial/SolicitudesAsignadasPage';
 import { RevisionDocumentosPage } from '@/pages/oficial/RevisionDocumentosPage';
@@ -51,6 +57,7 @@ export const router = createBrowserRouter([
       { path: '/contactos', element: <ContactosPage /> },
       { path: '/tramites', element: <TramitesPage /> },
       { path: '/consulta', element: <ConsultaPublicaPage /> },
+      { path: '/validar-certificado/:codigo', element: <ValidarCertificadoPage /> },
       { path: '/login', element: <LoginPage /> },
       { path: '/register', element: <RegisterPage /> },
       { path: '/verify-otp', element: <VerifyOtpPage /> },
@@ -91,6 +98,14 @@ export const router = createBrowserRouter([
       { path: '/admin/dashboard', element: <AdminDashboardPage /> },
       { path: '/admin/solicitudes', element: <SolicitudesListPage /> },
       { path: '/admin/solicitudes/:codigo', element: <AdminSolicitudDetallePage /> },
+      { path: '/admin/profesionales/solicitudes/natural', element: <ProfesionalesListPage tipo="NATURAL" /> },
+      { path: '/admin/profesionales/solicitudes/natural/:codigo', element: <ProfesionalesDetallePage tipo="NATURAL" /> },
+      { path: '/admin/profesionales/solicitudes/juridica', element: <ProfesionalesListPage tipo="JURIDICA" /> },
+      { path: '/admin/profesionales/solicitudes/juridica/:codigo', element: <ProfesionalesDetallePage tipo="JURIDICA" /> },
+      { path: '/admin/profesionales/lista/naturales', element: <ListaProfesionalesPage tipo="NATURAL" /> },
+      { path: '/admin/profesionales/lista/juridicas', element: <ListaProfesionalesPage tipo="JURIDICA" /> },
+      { path: '/admin/profesionales/certificados', element: <CertificadosEmitidosPage /> },
+      { path: '/admin/profesionales/reportes', element: <ReportesProfesionalesPage /> },
       { path: '/admin/usuarios', element: <UsuariosPage /> },
       { path: '/admin/certificados', element: <CertificadosPage /> },
       { path: '/admin/pagos', element: <PagosPage /> },
