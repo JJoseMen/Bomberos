@@ -1,0 +1,146 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+}
+
+.headerBadge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: $spacing-4;
+}
+
+.card {
+  background: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-xl;
+  padding: $spacing-5;
+}
+
+.cardTitle {
+  margin: 0 0 $spacing-3;
+  font-size: $font-size-base;
+  font-weight: 700;
+  color: $color-gray-900;
+}
+
+.fieldList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  font-size: $font-size-sm;
+  color: $color-gray-700;
+}
+
+.empty {
+  font-size: $font-size-sm;
+  color: $color-gray-500;
+}
+
+.docList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.docItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: $font-size-sm;
+}
+
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.timelineItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 2px solid $color-gray-200;
+  padding-left: $spacing-3;
+}
+
+.timelineEstado {
+  font-weight: 600;
+  font-size: $font-size-sm;
+}
+
+.timelineComentario {
+  font-size: $font-size-sm;
+  color: $color-gray-600;
+}
+
+.timelineFecha {
+  font-size: $font-size-xs;
+  color: $color-gray-500;
+}
+
+.actions {
+  display: flex;
+  gap: $spacing-3;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.radioGroup {
+  display: flex;
+  gap: $spacing-4;
+  flex-wrap: wrap;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: $font-size-sm;
+  color: $color-gray-700;
+  cursor: pointer;
+}
+
+.textarea {
+  width: 100%;
+  padding: $spacing-3;
+  font-size: $font-size-sm;
+  border: 1px solid $color-gray-300;
+  border-radius: $radius-md;
+  resize: vertical;
+  outline: none;
+  font-family: inherit;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.contador {
+  font-size: $font-size-xs;
+  color: $color-gray-500;
+  text-align: right;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+}

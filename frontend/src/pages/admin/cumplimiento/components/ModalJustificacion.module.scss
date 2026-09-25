@@ -1,0 +1,47 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.subtitle {
+  font-size: $font-size-sm;
+  color: $color-gray-700;
+}
+
+.hint {
+  font-size: $font-size-sm;
+  color: $color-gray-600;
+}
+
+.label {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  color: $color-gray-900;
+}
+
+.textarea {
+  width: 100%;
+  padding: $spacing-3;
+  font-size: $font-size-sm;
+  border: 1px solid $color-gray-300;
+  border-radius: $radius-md;
+  resize: vertical;
+  outline: none;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.contador {
+  font-size: $font-size-xs;
+  color: $color-gray-500;
+  text-align: right;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-3;
+}

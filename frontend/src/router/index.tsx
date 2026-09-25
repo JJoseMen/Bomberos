@@ -36,6 +36,12 @@ import { SolicitudDetallePage as ProfesionalesDetallePage } from '@/pages/admin/
 import { ListaProfesionalesPage } from '@/pages/admin/profesionales/ListaProfesionalesPage';
 import { CertificadosEmitidosPage } from '@/pages/admin/profesionales/CertificadosEmitidosPage';
 import { ReportesPage as ReportesProfesionalesPage } from '@/pages/admin/profesionales/ReportesPage';
+import { CumplimientoListPage } from '@/pages/admin/cumplimiento/SolicitudesListPage';
+import { CumplimientoDetallePage } from '@/pages/admin/cumplimiento/SolicitudDetallePage';
+import { InspeccionesListPage } from '@/pages/admin/cumplimiento/InspeccionesListPage';
+import { InspeccionDetallePage } from '@/pages/admin/cumplimiento/InspeccionDetallePage';
+import { CertificadosCumplimientoPage } from '@/pages/admin/cumplimiento/CertificadosCumplimientoPage';
+import { ReportesCumplimientoPage } from '@/pages/admin/cumplimiento/ReportesCumplimientoPage';
 import { OficialDashboardPage } from '@/pages/oficial/OficialDashboardPage';
 import { SolicitudesAsignadasPage } from '@/pages/oficial/SolicitudesAsignadasPage';
 import { RevisionDocumentosPage } from '@/pages/oficial/RevisionDocumentosPage';
@@ -106,6 +112,14 @@ export const router = createBrowserRouter([
       { path: '/admin/profesionales/lista/juridicas', element: <ListaProfesionalesPage tipo="JURIDICA" /> },
       { path: '/admin/profesionales/certificados', element: <CertificadosEmitidosPage /> },
       { path: '/admin/profesionales/reportes', element: <ReportesProfesionalesPage /> },
+      { path: '/admin/sippci/cumplimiento/solicitudes/natural', element: <CumplimientoListPage tipo="NATURAL" /> },
+      { path: '/admin/sippci/cumplimiento/solicitudes/natural/:codigo', element: <CumplimientoDetallePage tipo="NATURAL" /> },
+      { path: '/admin/sippci/cumplimiento/solicitudes/juridica', element: <CumplimientoListPage tipo="JURIDICA" /> },
+      { path: '/admin/sippci/cumplimiento/solicitudes/juridica/:codigo', element: <CumplimientoDetallePage tipo="JURIDICA" /> },
+      { path: '/admin/sippci/cumplimiento/inspecciones', element: <InspeccionesListPage /> },
+      { path: '/admin/sippci/cumplimiento/inspecciones/:id', element: <InspeccionDetallePage /> },
+      { path: '/admin/sippci/cumplimiento/certificados', element: <CertificadosCumplimientoPage /> },
+      { path: '/admin/sippci/cumplimiento/reportes', element: <ReportesCumplimientoPage /> },
       { path: '/admin/usuarios', element: <UsuariosPage /> },
       { path: '/admin/certificados', element: <CertificadosPage /> },
       { path: '/admin/pagos', element: <PagosPage /> },

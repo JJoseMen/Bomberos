@@ -14,6 +14,7 @@ import {
   UserPlus,
   ClipboardCheck,
   List,
+  Bell,
 } from 'lucide-react';
 
 export interface MenuItem {
@@ -82,8 +83,34 @@ export const MENU_POR_ROL: Record<RolInterno, MenuItem[]> = {
         },
         {
           label: 'Cumplimiento',
-          path: '/admin/sippci/cumplimiento/solicitudes',
           icon: <Shield size={18} />,
+          children: [
+            {
+              label: 'Solicitudes Natural',
+              path: '/admin/sippci/cumplimiento/solicitudes/natural',
+              icon: <FileText size={16} />,
+            },
+            {
+              label: 'Solicitudes Jurídica',
+              path: '/admin/sippci/cumplimiento/solicitudes/juridica',
+              icon: <FileCheck size={16} />,
+            },
+            {
+              label: 'Inspecciones',
+              path: '/admin/sippci/cumplimiento/inspecciones',
+              icon: <ClipboardCheck size={16} />,
+            },
+            {
+              label: 'Certificados',
+              path: '/admin/sippci/cumplimiento/certificados',
+              icon: <Award size={16} />,
+            },
+            {
+              label: 'Reportes',
+              path: '/admin/sippci/cumplimiento/reportes',
+              icon: <BarChart3 size={16} />,
+            },
+          ],
         },
         {
           label: 'Capacitaciones',
@@ -197,9 +224,19 @@ export const MENU_POR_ROL: Record<RolInterno, MenuItem[]> = {
       icon: <Shield size={20} />,
       children: [
         {
-          label: 'Solicitudes',
-          path: '/admin/sippci/cumplimiento/solicitudes',
+          label: 'Solicitudes Natural',
+          path: '/admin/sippci/cumplimiento/solicitudes/natural',
           icon: <FileText size={18} />,
+        },
+        {
+          label: 'Solicitudes Jurídica',
+          path: '/admin/sippci/cumplimiento/solicitudes/juridica',
+          icon: <FileCheck size={18} />,
+        },
+        {
+          label: 'Inspecciones',
+          path: '/admin/sippci/cumplimiento/inspecciones',
+          icon: <ClipboardCheck size={18} />,
         },
         {
           label: 'Certificados',
@@ -213,6 +250,7 @@ export const MENU_POR_ROL: Record<RolInterno, MenuItem[]> = {
         },
       ],
     },
+    { label: 'Notificaciones', path: '/admin/notificaciones', icon: <Bell size={20} /> },
   ],
 
   CAJERO: [

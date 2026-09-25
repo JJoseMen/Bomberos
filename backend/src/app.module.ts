@@ -15,6 +15,7 @@ import { DeclaracionesModule } from './modules/declaraciones/declaraciones.modul
 import { CapacitacionesModule } from './modules/capacitaciones/capacitaciones.module';
 import { ProfesionalesModule } from './modules/profesionales/profesionales.module';
 import { SippciModule } from './modules/sippci/sippci.module';
+import { CumplimientoModule } from './modules/cumplimiento/cumplimiento.module';
 import { RenovacionesModule } from './modules/renovaciones/renovaciones.module';
 import { NotificacionesModule } from './modules/notificaciones/notificaciones.module';
 import { AdminModule } from './modules/admin/admin.module';
@@ -42,6 +43,7 @@ import { RolesGuard } from './common/guards/roles.guard';
     CapacitacionesModule,
     ProfesionalesModule,
     SippciModule,
+    CumplimientoModule,
     RenovacionesModule,
     NotificacionesModule,
     AdminModule,
